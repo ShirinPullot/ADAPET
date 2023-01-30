@@ -59,6 +59,7 @@ def train(config):
     batcher = Batcher(config, tokenizer, config.dataset)
     dataset_reader = batcher.get_dataset_reader()
     model = adapet(config, tokenizer, dataset_reader).to(device)
+    print("everything loaded")
 
     ### Create Optimizer
     # Ignore weight decay for certain parameters
@@ -79,6 +80,7 @@ def train(config):
 
     # Number of batches is assuming grad_accumulation_factor forms one batch
     tot_num_batches = config.num_batches * config.grad_accumulation_factor
+    print("Total batches to train on: " ,tot_num_batches)
 
     # Warmup steps and total steps are based on batches, not epochs
     num_warmup_steps = config.num_batches * config.warmup_ratio
@@ -86,6 +88,7 @@ def train(config):
 
     for i in range(tot_num_batches):
         # Get true batch_idx
+        print("Starting batch: ",i)
         batch_idx = (i // config.grad_accumulation_factor)
 
         model.train()
