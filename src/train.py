@@ -107,6 +107,7 @@ def train(config):
         print("Finished %d batches" % batch_idx, end='\r')
 
         if (batch_idx + 1) % config.eval_every == 0 and i % config.grad_accumulation_factor == 0:
+            print("Performing evaluation")
             dict_avg_val = get_avg_dict_val_store(dict_val_store, config.eval_every)
             dict_val_store = None
             dev_acc, dev_logits = dev_eval(config, model, batcher, batch_idx, dict_avg_val)
@@ -115,6 +116,7 @@ def train(config):
             if dev_acc > best_dev_acc:
                 best_dev_acc = dev_acc
                 torch.save(model.state_dict(), os.path.join(config.exp_dir, "best_model.pt"))
+                print("saving model to ",config.exp_dir)
                 with open(os.path.join(config.exp_dir, "dev_logits.npy"), 'wb') as f:
                     np.save(f, dev_logits)
 

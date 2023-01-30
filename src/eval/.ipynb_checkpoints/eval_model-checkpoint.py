@@ -17,9 +17,7 @@ def eval(config, model, batch_iter, scorer):
     '''
     model.eval()
     with torch.no_grad():
-        
         for idx, batch in enumerate(batch_iter):
-            print("evaluation ",idx)
             pred_lbl, lbl_logits = model.predict(batch)
             list_idx = batch["input"]["idx"] if isinstance(batch["input"]["idx"], list) else batch["input"]["idx"].cpu().numpy().tolist()
             list_lbl = batch["output"]["true_lbl"] if "true_lbl" in batch["output"] else batch["output"]["lbl"]

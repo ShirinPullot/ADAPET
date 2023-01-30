@@ -52,6 +52,8 @@ if __name__ == '__main__':
     update_config = vars(args)
     config = Config(use_config, update_config, mkdir=True)
     #config.num_batches = 300
-    # config.grad_accumulation_factor = 4
-    # config.eval_every = 50
+    config.grad_accumulation_factor = 2
+    config.eval_every = 10
+    config.batch_size = 4
+    config.eval_batch_size = 64
     train(config)
